@@ -1,5 +1,6 @@
 import random
 
+
 class InvalidParameterError(Exception):
     pass
 
@@ -86,12 +87,14 @@ class Human(JungleAnimal):
                 if i != 0 and i != len(animals) - 1:
                     if type(animals[i + 1]) == Human or type(animals[i - 1]) == Human:
                         type1 = input(f"Enter type: ")
-                        buildings.append(Building(type))
+                        buildings.append(Building(type1))
 
 
 class Building():
-    def __init__(self, type):
-        self.type = type
+    def __init__(self, type1):
+        self.type1 = type1
+    def print(self):
+        print(self.type1)
 
 fruits = 100
 animals = []
@@ -166,6 +169,9 @@ for anim in animals:
         anim.daily_task(animals, buildings)
 
 print(f"The jungle now has {len(animals)} animals")
-print(fruits)
-print(animals)
-print(buildings)
+
+for i in range(len(animals)):
+    animals[i].print()
+
+for i in range(len(buildings)):
+    buildings[i].print()
