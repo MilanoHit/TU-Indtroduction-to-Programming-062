@@ -3,13 +3,16 @@ import random
 class InvalidParameterError(Exception):
     pass
 
+
 class InvalidAgeError(InvalidParameterError):
     def __init__(self,age):
-        super().__init__(self.age)
+        super().__init__(age)
+
 
 class InvalidSoundError(InvalidParameterError):
-    def __init__(self,sound):
-        super().__init__(self.sound)
+    def __init__(self, sound):
+        super().__init__(sound)
+
 
 class JungleAnimal:
     def __init__(self, name, age, sound):
@@ -22,16 +25,19 @@ class JungleAnimal:
 
     def print(self):
         pass
+
     def daily_task(self):
         pass
 
+
 class Jaguar(JungleAnimal):
-    def __init__(self):
-        super.__init__()
-        if self.age >15:
-            raise InvalidAgeError
+    def __init__(self, name, age, sound):
+        super().__init__(name, age, sound)
+        if self.age > 15:
+            raise InvalidAgeError(age)
         if self.sound.count("r") < 2:
-            raise InvalidSoundError
+            raise InvalidSoundError(sound)
+
     def print(self):
         print(f"Jaguar({self.name}, {self.age}, {self.sound})")
 
@@ -39,17 +45,22 @@ class Jaguar(JungleAnimal):
         for i in range(len(animals)):
             if type(animals[i]) == Lemur or type(animals[i]) == Human:
                 print(f"{self.name} the Jaguar hunted down {animals[i].name} the {type(animals[i])}")
+                animals.pop(i)
+                break
+
 
 class Lemur(JungleAnimal):
-    def __init__(self):
-        super.__init__()
+
+    def __init__(self, name, age, sound):
+        super().__init__(name, age, sound)
         if self.age >10:
-            raise InvalidAgeError
+            raise InvalidAgeError(age)
         if self.sound.count("e") < 1:
-            raise InvalidSoundError
+            raise InvalidSoundError(sound)
 
     def print(self):
         print(f"Lemur({self.name}, {self.age}, {self.sound})")
+
     def daily_task(self, fruits):
         if fruits > 10:
             print(f"{self.name} the Lemur ate a full meal of 10 fruits")
@@ -59,20 +70,22 @@ class Lemur(JungleAnimal):
             return 0
 
 class Human(JungleAnimal):
-    def __init__(self):
-        super.__init__()
+    def __init__(self, name, age, sound):
+        super().__init__(name, age, sound)
         if self.age >10:
-            raise InvalidAgeError
+            raise InvalidAgeError(age)
         if self.sound.count("e") < 1:
-            raise InvalidSoundError
+            raise InvalidSoundError(sound)
+
     def print(self):
         print(f"Human({self.name}, {self.age}, {self.sound})")
+
     def daily_task(self, animals, buildings):
         for i in range(len(animals)):
             if animals[i] == self:
                 if i != 0 and i != len(animals) - 1:
                     if type(animals[i + 1]) == Human or type(animals[i - 1]) == Human:
-                        type = input(f"Enter type: ")
+                        type1 = input(f"Enter type: ")
                         buildings.append(Building(type))
 
 
@@ -120,18 +133,37 @@ sounds = [
 
 for i in range(102):
     p = random.randint(0, 9)
-    if 0 <= p <= 3:
-        animals.append(Lemur(names[random.randint(0, len(names))]), random.randint(0, 20), sounds[random.randint(0, len(sounds))])
-    elif 3 <= p <= 7:
-        animals.append(Jaguar(names[random.randint(0, len(names))]), random.randint(0, 20), sounds[random.randint(0, len(sounds))])
-    elif 8 <= p <= 9:
-        animals.append(Human(names[random.randint(0, len(names))]), random.randint(0, 20), sounds[random.randint(0, len(sounds))])
+    try:
+        if 0 <= p <= 3:
+            k = random.randint(0, 20)
+            name = random.randint(0, len(names) - 1)
+            sound = random.randint(0, len(sounds) - 1)
+            animals.append(Lemur(names[name], k, sounds[sound]))
+        elif 3 <= p <= 7:
+            k = random.randint(0, 20)
+            name = random.randint(0, len(names) - 1)
+            sound = random.randint(0, len(sounds) - 1)
+            animals.append(Jaguar(names[name], k, sounds[sound]))
+        elif 8 <= p <= 9:
+            k = random.randint(0, 20)
+            name = random.randint(0, len(names) - 1)
+            sound = random.randint(0, len(sounds) - 1)
+            animals.append(Human(names[name], k, sounds[sound]))
+    except InvalidSoundError:
+        print("Invalid Sound")
+    except InvalidAgeError:
+        print("Invalid Age")
 print(f"The jungle now has {len(animals)} animals")
 
 
 for anim in animals:
-	anim.daily_task()
-
+    if type(anim) == Lemur:
+        fruits = random.randint(1, 20)
+        anim.daily_task(fruits)
+    elif type(anim) == Jaguar:
+        anim.daily_task(animals)
+    elif type(anim) == Human:
+        anim.daily_task(animals, buildings)
 
 print(f"The jungle now has {len(animals)} animals")
 print(fruits)
