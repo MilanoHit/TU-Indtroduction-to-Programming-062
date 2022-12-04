@@ -2,17 +2,20 @@ import random
 
 
 class InvalidParameterError(Exception):
-    pass
+    def __init__(self, invalid_param):
+        message = f"Invalid param: {invalid_param}"
+        super().__init__(message)
 
 
 class InvalidAgeError(InvalidParameterError):
-    def __init__(self, age):
-        super().__init__(age)
+    def __init__(self):
+        super().__init__("age")
 
 
 class InvalidSoundError(InvalidParameterError):
-    def __init__(self, sound):
-        super().__init__(sound)
+    def __init__(self):
+
+        super().__init__("sound")
 
 
 class JungleAnimal:
@@ -35,9 +38,9 @@ class Jaguar(JungleAnimal):
     def __init__(self, name, age, sound):
         super().__init__(name, age, sound)
         if self.age > 15:
-            raise InvalidAgeError(age)
+            raise InvalidAgeError()
         if self.sound.count("r") < 2:
-            raise InvalidSoundError(sound)
+            raise InvalidSoundError()
 
     def print(self):
         print(f"Jaguar({self.name}, {self.age}, {self.sound})")
@@ -55,9 +58,9 @@ class Lemur(JungleAnimal):
     def __init__(self, name, age, sound):
         super().__init__(name, age, sound)
         if self.age >10:
-            raise InvalidAgeError(age)
+            raise InvalidAgeError()
         if self.sound.count("e") < 1:
-            raise InvalidSoundError(sound)
+            raise InvalidSoundError()
 
     def print(self):
         print(f"Lemur({self.name}, {self.age}, {self.sound})")
@@ -66,17 +69,22 @@ class Lemur(JungleAnimal):
         if fruits > 10:
             print(f"{self.name} the Lemur ate a full meal of 10 fruits")
             return fruits-10
-        else:
+        elif fruits > 0:
             print(f"{self.name} the Lemur could only find {fruits} fruits")
+            return 0
+        else:
+            self.make_sound()
+            self.make_sound()
+            print(f"{self.name} the Lemur couldn't find anything to eat")
             return 0
 
 class Human(JungleAnimal):
     def __init__(self, name, age, sound):
         super().__init__(name, age, sound)
         if self.age >10:
-            raise InvalidAgeError(age)
+            raise InvalidAgeError()
         if self.sound.count("e") < 1:
-            raise InvalidSoundError(sound)
+            raise InvalidSoundError()
 
     def print(self):
         print(f"Human({self.name}, {self.age}, {self.sound})")
@@ -152,10 +160,10 @@ for i in range(102):
             name = random.randint(0, len(names) - 1)
             sound = random.randint(0, len(sounds) - 1)
             animals.append(Human(names[name], k, sounds[sound]))
-    except InvalidSoundError:
-        print("Invalid Sound")
-    except InvalidAgeError:
-        print("Invalid Age")
+    except InvalidSoundError as ex:
+        print(ex)
+    except InvalidAgeError as ex:
+        print(ex)
 print(f"The jungle now has {len(animals)} animals")
 
 
