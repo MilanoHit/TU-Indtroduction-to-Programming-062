@@ -6,7 +6,7 @@ class InvalidParameterError(Exception):
 
 
 class InvalidAgeError(InvalidParameterError):
-    def __init__(self,age):
+    def __init__(self, age):
         super().__init__(age)
 
 
@@ -45,7 +45,7 @@ class Jaguar(JungleAnimal):
     def daily_task(self, animals):
         for i in range(len(animals)):
             if type(animals[i]) == Lemur or type(animals[i]) == Human:
-                print(f"{self.name} the Jaguar hunted down {animals[i].name} the {type(animals[i])}")
+                print(f"{self.name} the Jaguar hunted down {animals[i].name} the {type(animals[i]).__name__}")
                 animals.pop(i)
                 break
 
