@@ -78,6 +78,7 @@ class Lemur(JungleAnimal):
             print(f"{self.name} the Lemur couldn't find anything to eat")
             return 0
 
+
 class Human(JungleAnimal):
     def __init__(self, name, age, sound):
         super().__init__(name, age, sound)
@@ -93,7 +94,15 @@ class Human(JungleAnimal):
         for i in range(len(animals)):
             if animals[i] == self:
                 if i != 0 and i != len(animals) - 1:
-                    if type(animals[i + 1]) == Human or type(animals[i - 1]) == Human:
+                    if type(animals[i + 1]) == Human and type(animals[i - 1]) == Human:
+                        type1 = input(f"Enter type: ")
+                        buildings.append(Building(type1))
+                if i == 0:
+                    if type(animals[i + 1]) == Human:
+                        type1 = input(f"Enter type: ")
+                        buildings.append(Building(type1))
+                if i == len(animals) - 1:
+                    if type(animals[i - 1]) == Human:
                         type1 = input(f"Enter type: ")
                         buildings.append(Building(type1))
 
