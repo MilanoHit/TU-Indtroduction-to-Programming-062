@@ -16,8 +16,7 @@ class Menu:
 
     def run(self):
         bank = Bank()
-        bank.add_user("Samuil Milanov", "0243281000")
-        bank.add_account("0243281000", 15, "CREDIT")
+
         # infinite menu loop
         while True:
             self.print_menu()

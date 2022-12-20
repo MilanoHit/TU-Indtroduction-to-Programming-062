@@ -1,4 +1,4 @@
-from Errorrs import UserAlreadyOwnsAccount, InvalidAccountData
+from Errorrs import UserAlreadyOwnsAccount, AccountNotFound
 from account import Account
 
 class User:
@@ -21,4 +21,4 @@ class User:
             if self.accounts[i].iban == Iban:
                 return self.accounts[i]
         else:
-            raise InvalidAccountData()
+            raise AccountNotFound

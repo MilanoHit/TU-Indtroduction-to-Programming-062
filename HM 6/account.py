@@ -1,6 +1,6 @@
 from Errorrs import InvalidAccountType
 from Errorrs import InvalidAccountData
-
+from Errorrs import UnsufficientBalance
 class Account:
     ACC_TYPES = ("SAVINGS", "CREDIT", "PAYMENT")
 
@@ -33,5 +33,6 @@ class Account:
             currency = int(currency)
         except:
             raise InvalidAccountData()
-
+        if self.currency - currency < 0:
+            raise UnsufficientBalance
         self.currency -= currency
